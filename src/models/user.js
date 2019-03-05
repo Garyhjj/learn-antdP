@@ -35,7 +35,8 @@ export default {
     }) {
       const isAuth = yield call(checkAuth);
       if (!isAuth) {
-        routerRedux.replace('/user/login')
+        yield put({type: 'login/logout'}
+        );
         return;
       }
       const response = yield call(getUser);
