@@ -4,7 +4,7 @@ import fetch from 'dva/fetch';
 export const dva = {
   config: {
     onError(err) {
-      console.log(22)
+      console.log(err)
       err.preventDefault();
     },
     // extraReducers: {
