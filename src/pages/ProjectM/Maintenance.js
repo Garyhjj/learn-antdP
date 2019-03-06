@@ -1,8 +1,10 @@
-import { Table, Divider, Tag, Card } from 'antd';
+import { Divider, Tag, Card } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { connect } from 'dva';
 import project from '../../models/project';
 import React, { PureComponent } from 'react';
+import Formater from '@/components/Formater';
+import SimpleTable from '@/components/SimpleTable';
 
 const columns = [{
   title: '编号',
@@ -17,10 +19,12 @@ const columns = [{
   title: '开始日期',
   dataIndex: 'START_DATE',
   key: 'START_DATE',
+  render: (str) => (<Formater type="dateFormat" target={str} args="YYYY-MM-DD"/>)
 }, {
   title: '结束日期',
   key: 'DUE_DATE',
   dataIndex: 'DUE_DATE',
+  formater: ['dateFormat','YYYY-MM-DD']
 }, {
   title: 'Action',
   key: 'action',
@@ -33,39 +37,9 @@ const columns = [{
   ),
 }];
 
-const data = [{
-  key: '1',
-  name: 'John Brown',
-  age: 32,
-  address: 'New York No. 1 Lake Park',
-  tags: ['nice', 'developer'],
-}, {
-  key: '2',
-  name: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-  tags: ['loser'],
-}, {
-  key: '3',
-  name: 'Joe Black',
-  age: 32,
-  address: 'Sidney No. 1 Lake Park',
-  tags: ['cool', 'teacher'],
-}];
-
-function mapDataForTable(data) {
-  return data.map((l) => {
-    l.key = l.ID || ~~(Math.random() * 10000);
-    return l;
-  })
-}
 
 @connect(({ projectM }) => ({...projectM}))
 class Hhh extends PureComponent {
-  componentWillMount() {
-    this.state = this.state || {};
-    this.state.headers = mapDataForTable(this.props.headers);
-  }
   componentDidMount() {
     const {
       dispatch,
@@ -75,21 +49,10 @@ class Hhh extends PureComponent {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props,nextProps)
-    if (this.props.headers !== nextProps.headers) {
-      this.setHeaderData(nextProps.headers)
-    }
-  }
-
-  setHeaderData(data) {
-    this.setState({headers:mapDataForTable(data)});
-  }
   render() {
     const { headers } = this.props;
-    console.log(headers);
     return (<PageHeaderWrapper>
-      <Card bordered={false}><Table columns={columns} dataSource={headers} /></Card>
+      <Card bordered={false}><SimpleTable columns={columns} dataSource={headers} /></Card>
       </PageHeaderWrapper>);
   }
 }
