@@ -5,33 +5,22 @@ import project from '../../models/project';
 import React, { PureComponent } from 'react';
 
 const columns = [{
-  title: 'Name',
-  dataIndex: 'name',
-  key: 'name',
+  title: '编号',
+  dataIndex: 'CODE',
+  key: 'CODE',
   render: text => <a href="javascript:;">{text}</a>,
 }, {
-  title: 'Age',
-  dataIndex: 'age',
-  key: 'age',
+  title: '项目名称',
+  dataIndex: 'NAME',
+  key: 'NAME',
 }, {
-  title: 'Address',
-  dataIndex: 'address',
-  key: 'address',
+  title: '开始日期',
+  dataIndex: 'START_DATE',
+  key: 'START_DATE',
 }, {
-  title: 'Tags',
-  key: 'tags',
-  dataIndex: 'tags',
-  render: tags => (
-    <span>
-      {tags.map(tag => {
-        let color = tag.length > 5 ? 'geekblue' : 'green';
-        if (tag === 'loser') {
-          color = 'volcano';
-        }
-        return <Tag color={color} key={tag}>{tag.toUpperCase()}</Tag>;
-      })}
-    </span>
-  ),
+  title: '结束日期',
+  key: 'DUE_DATE',
+  dataIndex: 'DUE_DATE',
 }, {
   title: 'Action',
   key: 'action',
@@ -63,8 +52,20 @@ const data = [{
   address: 'Sidney No. 1 Lake Park',
   tags: ['cool', 'teacher'],
 }];
+
+function mapDataForTable(data) {
+  return data.map((l) => {
+    l.key = l.ID || ~~(Math.random() * 10000);
+    return l;
+  })
+}
+
 @connect(({ projectM }) => ({...projectM}))
 class Hhh extends PureComponent {
+  componentWillMount() {
+    this.state = this.state || {};
+    this.state.headers = mapDataForTable(this.props.headers);
+  }
   componentDidMount() {
     const {
       dispatch,
@@ -73,11 +74,22 @@ class Hhh extends PureComponent {
       type: 'projectM/fetchHeader',
     })
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props,nextProps)
+    if (this.props.headers !== nextProps.headers) {
+      this.setHeaderData(nextProps.headers)
+    }
+  }
+
+  setHeaderData(data) {
+    this.setState({headers:mapDataForTable(data)});
+  }
   render() {
     const { headers } = this.props;
     console.log(headers);
     return (<PageHeaderWrapper>
-      <Card bordered={false}><Table columns={columns} dataSource={data} /></Card>
+      <Card bordered={false}><Table columns={columns} dataSource={headers} /></Card>
       </PageHeaderWrapper>);
   }
 }

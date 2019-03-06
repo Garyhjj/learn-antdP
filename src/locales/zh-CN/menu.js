@@ -38,4 +38,6 @@ export default {
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
+  'menu.projectM': '项目管理',
+  'menu.projectM.main': '项目创建及管理'
 };

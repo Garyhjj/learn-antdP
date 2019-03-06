@@ -265,22 +265,22 @@ export default [
         ],
       },
       {
-        name: '测试',
+        name: 'projectM',
         icon: 'warning',
-        path: '/test',
+        path: '/ProjectM',
         routes: [
           // exception
           {
-            path: '/test/some',
-            name: '测试1',
-            component: './Test/hhh',
+            path: '/projectM/main',
+            name: 'main',
+            component: './ProjectM/Maintenance',
           },
-          {
-            path: '/exception/trigger',
-            name: 'trigger',
-            hideInMenu: true,
-            component: './Exception/TriggerException',
-          },
+          // {
+          //   path: '/exception/trigger',
+          //   name: 'trigger',
+          //   hideInMenu: true,
+          //   component: './Exception/TriggerException',
+          // },
         ],
       },
       {
