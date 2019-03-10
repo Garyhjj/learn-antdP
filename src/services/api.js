@@ -1,6 +1,16 @@
 import { stringify } from 'qs';
-import request from '@/utils/request';
-
+import request, {myRequest}from '@/utils/request';
+import {tify} from '@/utils/chinese-conv';
+export function getColleague(name) {
+  if (!(typeof name === 'string') || !name) return [];
+  let emp_name = name.toUpperCase();
+  emp_name = tify(emp_name)
+      .replace(/^\"/g, '')
+      .replace(/\"$/g, '');
+  return myRequest(
+      `Guid/GetUserLikeNoSite?emp_name=${emp_name}`
+  );
+}
 export async function queryProjectNotice() {
   return request('/api/project/notice');
 }
